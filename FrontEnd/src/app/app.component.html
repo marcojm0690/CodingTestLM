@@ -1,4 +1,14 @@
-﻿<app-header></app-header>
+﻿<mat-toolbar color="primary">
+    <mat-toolbar-row>
+        <span class="menu-spacer"></span>
+        <div>
+            <a mat-button routerLink="home"> Usuarios </a>
+            <a mat-button routerLink="actividad"> Actividades </a>
+        </div>
+    </mat-toolbar-row>
+</mat-toolbar>
+<router-outlet></router-outlet>
+<!-- <app-header></app-header>
 <h1 id="tableLabel">Weather forecast</h1>
 
 <p>This component demonstrates fetching data from the server.</p>
@@ -22,4 +32,4 @@
             <td>{{ forecast.telephone }}</td>
         </tr>
     </tbody>
-</table>
+</table> -->
