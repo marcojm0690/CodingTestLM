@@ -1,26 +1,26 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { User } from 'src/models/user';
+import { UserService } from 'src/services/UserService';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  providers: [
+    UserService
+  ],
 })
 export class AppComponent {
-  public forecasts?: WeatherForecast[];
+  public users?: User[];
 
-  constructor(http: HttpClient) {
-    http.get<WeatherForecast[]>('/weatherforecast').subscribe(result => {
-      this.forecasts = result;
-    }, error => console.error(error));
+  constructor(private userService:UserService) {
+    this.users = [];
+    this.userService.getUsers().subscribe(result => {
+      debugger;
+      this.users = result;
+    });
   }
 
-  title = 'FrontEnd';
-}
-
-interface WeatherForecast {
-  date: string;
-  temperatureC: number;
-  temperatureF: number;
-  summary: string;
+  title = 'Usuarios';
 }

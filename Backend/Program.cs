@@ -27,7 +27,10 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("dbconn")));
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            app.UseCors(x => x
+               .AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader());
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
