@@ -13,7 +13,9 @@ namespace Backend
 
             builder.Services.AddControllers();
             builder.Services.AddDbContext<PruebaContext>(options =>
-options.UseSqlServer(builder.Configuration.GetConnectionString("dbconn")));
+options.UseSqlServer(builder.Configuration.GetConnectionString("PruebaDB")));
+
+
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
