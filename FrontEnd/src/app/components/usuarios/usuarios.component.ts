@@ -29,6 +29,12 @@ export class UsuariosComponent {
   usuario!: User;
   productDialog!: boolean;
   submitted!: boolean;
+  isInvalid()
+  {
+    debugger;
+   return this.usuario.name == undefined || this.usuario.country == undefined || this.usuario.lastName== undefined || this.usuario.email== undefined ||
+   this.usuario.dateOfBirth == undefined;
+  }
   constructor(private userService: UserService, private messageService: MessageService, private confirmationService: ConfirmationService) {
     this.loadUsers();
   }

@@ -55,29 +55,25 @@
         <div class="p-field" #calendarContainer>
             <label for="name">Nombre</label>
             <input type="text" pInputText id="name" [(ngModel)]="usuario.name" required autofocus />
-            <small class="p-invalid" *ngIf="submitted && !usuario.name && !usuario.country && !usuario.lastName && !usuario.email &&
-             !usuario.dateOfBirth">Nombre es requerido.</small>
+            <small class="p-invalid" *ngIf="submitted && usuario.name == undefined || usuario.name == ''">Nombre es requerido.</small>
         </div>
         <div class="p-field">
             <label for="lastName">Apellido</label>
             <input type="text" pInputText id="lastName" [(ngModel)]="usuario.lastName" required />
-            <small class="p-invalid" *ngIf="submitted && !usuario.name && !usuario.country && !usuario.lastName && !usuario.email &&
-             !usuario.dateOfBirth">Nombre es requerido.</small>
+            <small class="p-invalid" *ngIf="submitted && usuario.lastName == undefined || usuario.lastName == ''">Apellido es requerido.</small>
         </div>
         <div class="p-field">
             <label for="email">Correo</label>
             <input type="text" pInputText id="email" [(ngModel)]="usuario.email" email="true" [pKeyFilter]="'email'"
                 [pValidateOnly]="true" placeholder="correo@dominio.com" [required]="true" />
-            <small class="p-invalid" *ngIf="submitted && !usuario.name && !usuario.country && !usuario.lastName && !usuario.email &&
-                !usuario.dateOfBirth">Nombre es requerido.</small>
+            <small class="p-invalid" *ngIf="submitted && usuario.email == undefined || usuario.email == ''">Nombre es requerido.</small>
         </div>
         <div class="p-formgrid p-grid" style="display:inline-flex">
             <div class="p-field p-col">
                 <label for="birthDate">Fecha de Nacimiento</label>
                 <p-calendar [(ngModel)]="usuario.dateOfBirth" [appendTo]="calendarContainer" [baseZIndex]="1000"
                     dateFormat="dd/mm/yy" [showIcon]="true" inputId="birthDate" [required]="true"></p-calendar>
-                <small class="p-invalid" *ngIf="submitted && !usuario.name && !usuario.country && !usuario.lastName && !usuario.email &&
-            !usuario.dateOfBirth">Nombre es requerido.</small>
+                <small class="p-invalid" *ngIf="submitted && usuario.dateOfBirth == undefined">Nombre es requerido.</small>
             </div>
             <div class="p-field p-col">
                 <label for="telephone">Teléfono</label>
@@ -104,8 +100,7 @@
             </p-dropdown>
             <!-- <label for="name">País</label>
             <input type="text" pInputText id="name" [(ngModel)]="usuario.country" [required]="true" /> -->
-            <small class="p-invalid" *ngIf="submitted && !usuario.name && !usuario.country && !usuario.lastName && !usuario.email &&
-            !usuario.dateOfBirth">Nombre es requerido.</small>
+            
         </div>
 
         <div class="p-field">
@@ -120,7 +115,7 @@
 
     <ng-template pTemplate="footer">
         <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveProduct()"></button>
+        <button pButton pRipple label="Save" [disabled]="isInvalid()" icon="pi pi-check" class="p-button-text" (click)="saveProduct()"></button>
     </ng-template>
 </p-dialog>
 
