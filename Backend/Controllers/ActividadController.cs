@@ -19,7 +19,7 @@ namespace Backend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Actividad>>> GetActividadDetails()
         {
-            return await _context.Actividades.Include(c=> c.UsuarioActividad).ToListAsync();
+            return await _context.Actividades.Include(c=> c.UsuarioActividad).OrderByDescending(c=> c.CreateDate).ToListAsync();
         }
     }
 }

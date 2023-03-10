@@ -32,7 +32,7 @@ public partial class PruebaContext : DbContext
             entity.ToTable("Actividad");
 
             entity.Property(e => e.IdActividad).HasColumnName("Id_actividad");
-            entity.Property(e => e.Actividad1)
+            entity.Property(e => e.DescripcionActividad)
                 .HasMaxLength(50)
                 .IsFixedLength()
                 .HasColumnName("actividad");

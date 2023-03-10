@@ -1,18 +1,17 @@
-<p-table [value]="actividades" [tableStyle]="{'min-width': '50rem'}">
+<p-table [rows]="7" [paginator]="true" [value]="actividades" [tableStyle]="{'min-width': '50rem'}">
     <ng-template pTemplate="header">
         <tr>
             <th>Fecha</th>
             <th>Nombre</th>
-            <th>Apellido</th>
-            <th>Actividad</th>
+            <th> Detalle Actividad</th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-actividades>
         <tr>
-            <td>{{ actividades.createDate | date  }}</td>
-            <td>{{actividades.usuarioActividad.name}}</td>
-            <td>{{actividades.usuarioActividad.lastName}}</td>
-            <td>{{actividades.actividad1}}</td>
+            <td>{{ actividades.createDate | date }}</td>
+            <td>{{actividades.usuarioActividad.name + ' '+ actividades.usuarioActividad.lastName}}</td>
+
+            <td>{{actividades.descripcionActividad}}</td>
         </tr>
     </ng-template>
 </p-table>

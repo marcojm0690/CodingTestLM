@@ -12,7 +12,7 @@ public partial class Actividad
 
     public int IdUsuario { get; set; }
 
-    public string Actividad1 { get; set; } = null!;
+    public string DescripcionActividad { get; set; } = null!;
     
     public virtual User UsuarioActividad { get; set; } = null!;
 }

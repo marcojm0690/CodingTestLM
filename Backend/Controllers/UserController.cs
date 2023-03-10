@@ -28,7 +28,7 @@ namespace Backend.Controllers
         {
             _context.Users.Add(userDetail);
             await _context.SaveChangesAsync();
-            InsertActividad(userDetail.Id, "Creación de usuario");
+            await InsertActividad(userDetail.Id, "Creación de usuario");
             return CreatedAtAction("GetUserDetail", new { id = userDetail.Id }, userDetail);
         }
 
@@ -48,14 +48,19 @@ namespace Backend.Controllers
         {
             try
             {
+                var actividades = await _context.Actividades.Where(c => c.IdUsuario == id).ToListAsync();
+
                 var userDetail = await _context.Users.FindAsync(id);
                 if (userDetail == null)
                 {
                     return NotFound();
                 }
+                if (actividades.Count > 0)
+                {
+                    _context.Actividades.RemoveRange(actividades);
+                }
                 _context.Users.Remove(userDetail);
                 await _context.SaveChangesAsync();
-                InsertActividad(userDetail.Id, "Eliminacion de usuario");
             }
             catch
             {
@@ -76,7 +81,7 @@ namespace Backend.Controllers
             {
                 await _context.SaveChangesAsync();
 
-                InsertActividad(id, "Actualización de Usuario");
+               await InsertActividad(id, "Actualización de Usuario");
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -96,16 +101,17 @@ namespace Backend.Controllers
         {
             return _context.Users.Any(e => e.Id == id);
         }
-        private async void InsertActividad(int id, string userAction)
+        private  async Task<ActionResult<Actividad>> InsertActividad(int id, string userAction)
         {
             try
             {
                 Actividad actividad = new Actividad();
                 actividad.CreateDate = DateTime.Today;
                 actividad.IdUsuario = id;
-                actividad.Actividad1 = userAction;
+                actividad.DescripcionActividad = userAction;
                 _context.Actividades.Add(actividad);
                 await _context.SaveChangesAsync();
+                return actividad;
             }
             catch
             {

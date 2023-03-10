@@ -4,6 +4,6 @@ export class Actividad {
     idActividad!:      number ;
     createDate!:       Date;
     idUsuario!:        number;
-    actividad1!:       string;
+    descripcionActividad!:       string;
     usuarioActividad!: User;
 }

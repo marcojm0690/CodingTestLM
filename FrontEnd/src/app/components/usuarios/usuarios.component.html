@@ -1,1 +1,127 @@
-<h1>MARCO JIMENEZ</h1>
+<p-toast></p-toast>
+
+<div class="card">
+    <p-toolbar styleClass="p-mb-4">
+        <ng-template pTemplate="left">
+            <button pButton pRipple label="Nuevo Usuario" icon="pi pi-plus" class="p-button-success p-mr-2"
+                (click)="openNew()"></button>
+        </ng-template>
+    </p-toolbar>
+
+    <p-table #dt [value]="usuarios" [rows]="10" [paginator]="true"
+        [globalFilterFields]="['name','lastName','email','telephone']" [(selection)]="selectedUser" [rowHover]="true"
+        dataKey="id" currentPageReportTemplate="Mostrando {first} - {last} de {totalRecords} usuarios"
+        [showCurrentPageReport]="true">
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="name">Nombre<p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="lastName">Apellido<p-sortIcon field="lastName"></p-sortIcon></th>
+                <th pSortableColumn="email">Correo<p-sortIcon field="email"></p-sortIcon></th>
+                <th pSortableColumn="telephone">Telefono<p-sortIcon field="telephone"></p-sortIcon></th>
+                <th pSortableColumn="dateOfBirth">Fecha de Nacimiento<p-sortIcon field="dateOfBirth"></p-sortIcon></th>
+                <th pSortableColumn="country">Pais<p-sortIcon field="country"></p-sortIcon></th>
+                <th pSortableColumn="contact">¿Desea ser contactado?<p-sortIcon field="contact"></p-sortIcon></th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-user>
+            <tr>
+                <td>{{user.name}}</td>
+                <td>{{user.lastName}}</td>
+                <td>{{user.email}}</td>
+                <td>{{user.telephone}}</td>
+                <td>{{user.dateOfBirth | date}}</td>
+                <td>{{user.country}}</td>
+                <td>{{user.contact}}</td>
+                <td>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"
+                        (click)="editProduct(user)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                        (click)="deleteProduct(user)"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="p-d-flex p-ai-center p-jc-between">
+                Hay {{usuarios ? usuarios.length : 0 }} usuarios.
+            </div>
+        </ng-template>
+    </p-table>
+</div>
+
+<p-dialog [(visible)]="productDialog" [style]="{width: '600px'}" header="Usuarios" [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="content">
+        <div class="p-field" #calendarContainer>
+            <label for="name">Nombre</label>
+            <input type="text" pInputText id="name" [(ngModel)]="usuario.name" required autofocus />
+            <small class="p-invalid" *ngIf="submitted && !usuario.name && !usuario.country && !usuario.lastName && !usuario.email &&
+             !usuario.dateOfBirth">Nombre es requerido.</small>
+        </div>
+        <div class="p-field">
+            <label for="lastName">Apellido</label>
+            <input type="text" pInputText id="lastName" [(ngModel)]="usuario.lastName" required />
+            <small class="p-invalid" *ngIf="submitted && !usuario.name && !usuario.country && !usuario.lastName && !usuario.email &&
+             !usuario.dateOfBirth">Nombre es requerido.</small>
+        </div>
+        <div class="p-field">
+            <label for="email">Correo</label>
+            <input type="text" pInputText id="email" [(ngModel)]="usuario.email" email="true" [pKeyFilter]="'email'"
+                [pValidateOnly]="true" placeholder="correo@dominio.com" [required]="true" />
+            <small class="p-invalid" *ngIf="submitted && !usuario.name && !usuario.country && !usuario.lastName && !usuario.email &&
+                !usuario.dateOfBirth">Nombre es requerido.</small>
+        </div>
+        <div class="p-formgrid p-grid" style="display:inline-flex">
+            <div class="p-field p-col">
+                <label for="birthDate">Fecha de Nacimiento</label>
+                <p-calendar [(ngModel)]="usuario.dateOfBirth" [appendTo]="calendarContainer" [baseZIndex]="1000"
+                    dateFormat="dd/mm/yy" [showIcon]="true" inputId="birthDate" [required]="true"></p-calendar>
+                <small class="p-invalid" *ngIf="submitted && !usuario.name && !usuario.country && !usuario.lastName && !usuario.email &&
+            !usuario.dateOfBirth">Nombre es requerido.</small>
+            </div>
+            <div class="p-field p-col">
+                <label for="telephone">Teléfono</label>
+                <p-inputMask mask="9999-9999" id="telephone"  [(ngModel)]="usuario.telephone" placeholder="9999-9999"></p-inputMask>
+                <!-- <input type="number" pInputText id="telephone" [(ngModel)]="usuario.telephone" /> -->
+            </div>
+        </div>
+
+        <div class="p-field">
+            <label for="pais">País</label>
+            <p-dropdown id="pais" [options]="countries" [(ngModel)]="usuario.country" optionValue="alpha3"
+                optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Seleccione un pais">
+                <ng-template pTemplate="selectedItem">
+                    <div class="country-item country-item-value" *ngIf="usuario.country">
+                        <div>{{usuario.country}}</div>
+                    </div>
+                </ng-template>
+                <ng-template let-country pTemplate="item">
+                    <div class="country-item">
+                        <div>{{country.name}}</div>
+                    </div>
+                </ng-template>
+
+            </p-dropdown>
+            <!-- <label for="name">País</label>
+            <input type="text" pInputText id="name" [(ngModel)]="usuario.country" [required]="true" /> -->
+            <small class="p-invalid" *ngIf="submitted && !usuario.name && !usuario.country && !usuario.lastName && !usuario.email &&
+            !usuario.dateOfBirth">Nombre es requerido.</small>
+        </div>
+
+        <div class="p-field">
+            <label class="p-mb-3">¿Desea ser contactado?</label>
+            <div class="p-formgrid p-grid">
+                <div class="p-field-radiobutton p-col-6">
+                    <p-checkbox [(ngModel)]="usuario.contact" [binary]="true"></p-checkbox>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveProduct()"></button>
+    </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>

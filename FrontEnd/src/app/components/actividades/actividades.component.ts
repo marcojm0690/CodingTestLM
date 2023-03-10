@@ -14,7 +14,7 @@ import { UserService } from 'src/services/UserService';
   ],
 })
 export class ActividadesComponent {
-  public actividades!: any[];
+  public actividades!: Actividad[];
   constructor(private actividadService:ActividadService) {
     this.actividades = [];
     this.actividadService.getActividades().subscribe(result => {
